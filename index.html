@@ -1,0 +1,189 @@
+# sop-card<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日波段操作SOP卡</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, sans-serif; background: #f5f5f5; padding: 16px; color: #1a1a1a; }
+h1 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #1a1a1a; }
+.section-label { font-size: 11px; font-weight: 600; color: #888; letter-spacing: .05em; text-transform: uppercase; margin: 16px 0 8px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+.mini-card { background: #fff; border-radius: 10px; padding: 12px; border: 1px solid #e5e5e5; }
+.mini-label { font-size: 11px; color: #888; margin-bottom: 4px; }
+.mini-val { font-size: 22px; font-weight: 600; }
+.mini-val.green { color: #1D9E75; }
+.mini-val.amber { color: #BA7517; }
+.exit-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+.exit-box { border-radius: 10px; padding: 12px; text-align: center; }
+.exit-box.stop { background: #FCEBEB; }
+.exit-box.tp   { background: #EAF3DE; }
+.exit-box.time { background: #FAEEDA; }
+.exit-val { font-size: 18px; font-weight: 600; }
+.exit-val.red   { color: #A32D2D; }
+.exit-val.green { color: #0F6E56; }
+.exit-val.amber { color: #854F0B; }
+.exit-desc { font-size: 11px; margin-top: 3px; }
+.exit-desc.red   { color: #A32D2D; }
+.exit-desc.green { color: #0F6E56; }
+.exit-desc.amber { color: #854F0B; }
+.stock-tab { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+.stab { background: #fff; border-radius: 10px; padding: 12px; border: 1px solid #e5e5e5; }
+.stab-name { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.stab-row { display: flex; justify-content: space-between; font-size: 12px; padding: 5px 0; border-bottom: 1px solid #f0f0f0; }
+.stab-row:last-child { border-bottom: none; }
+.stab-key { color: #888; }
+.stab-val { font-weight: 500; }
+.rule-card { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 4px; border: 1px solid #e5e5e5; }
+.rule-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+.check-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+.check-row:last-of-type { border-bottom: none; }
+.cb { width: 24px; height: 24px; border: 1.5px solid #ccc; border-radius: 6px; flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.cb.checked { background: #1D9E75; border-color: #1D9E75; }
+.cb.checked::after { content: ''; display: block; width: 6px; height: 10px; border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg) translate(-1px,-1px); }
+.check-label { font-size: 13px; font-weight: 500; line-height: 1.4; }
+.check-sub { font-size: 11px; color: #888; margin-top: 3px; line-height: 1.5; }
+.signal-bar { margin-top: 14px; border-radius: 8px; padding: 12px; text-align: center; background: #f5f5f5; }
+.signal-bar.go { background: #EAF3DE; }
+.signal-text { font-size: 13px; font-weight: 500; color: #888; }
+.signal-text.go { color: #0F6E56; }
+.timing-card { background: #fff; border-radius: 12px; padding: 16px; border: 1px solid #e5e5e5; margin-bottom: 4px; }
+.timing-list { list-style: none; }
+.timing-list li { display: flex; gap: 12px; font-size: 13px; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+.timing-list li:last-child { border-bottom: none; }
+.timing-time { font-weight: 600; min-width: 75px; flex-shrink: 0; }
+.timing-desc { color: #555; line-height: 1.5; }
+.note-box { background: #f5f5f5; border-radius: 10px; padding: 14px; margin-top: 4px; }
+.note-title { font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+.note-list { padding-left: 16px; font-size: 12px; color: #555; line-height: 2; }
+</style>
+</head>
+<body>
+<h1>每日波段操作 SOP 卡</h1>
+
+<p class="section-label">策略績效</p>
+<div class="two-col">
+  <div class="mini-card">
+    <p class="mini-label">台光電 2383 — 期望值</p>
+    <p class="mini-val green">+8.33%</p>
+  </div>
+  <div class="mini-card">
+    <p class="mini-label">穩懋 3105 — 期望值</p>
+    <p class="mini-val amber">+1.67%</p>
+  </div>
+</div>
+
+<p class="section-label">出場規則（兩檔相同）</p>
+<div class="exit-grid">
+  <div class="exit-box stop">
+    <div class="exit-val red">-5%</div>
+    <div class="exit-desc red">停損出場</div>
+  </div>
+  <div class="exit-box tp">
+    <div class="exit-val green">+15%</div>
+    <div class="exit-desc green">停利出場</div>
+  </div>
+  <div class="exit-box time">
+    <div class="exit-val amber">14天</div>
+    <div class="exit-desc amber">時間到出場</div>
+  </div>
+</div>
+
+<p class="section-label">每日數據記錄（收盤後填寫）</p>
+<div class="stock-tab">
+  <div class="stab">
+    <p class="stab-name">台光電 2383</p>
+    <div class="stab-row"><span class="stab-key">收盤價</span><span class="stab-val">＿＿＿元</span></div>
+    <div class="stab-row"><span class="stab-key">MA5</span><span class="stab-val">＿＿＿</span></div>
+    <div class="stab-row"><span class="stab-key">MA20</span><span class="stab-val">＿＿＿</span></div>
+    <div class="stab-row"><span class="stab-key">今日量</span><span class="stab-val">＿＿M</span></div>
+    <div class="stab-row"><span class="stab-key">均量×1.5</span><span class="stab-val">＿＿M</span></div>
+  </div>
+  <div class="stab">
+    <p class="stab-name">穩懋 3105</p>
+    <div class="stab-row"><span class="stab-key">收盤價</span><span class="stab-val">＿＿＿元</span></div>
+    <div class="stab-row"><span class="stab-key">MA5</span><span class="stab-val">＿＿＿</span></div>
+    <div class="stab-row"><span class="stab-key">MA20</span><span class="stab-val">＿＿＿</span></div>
+    <div class="stab-row"><span class="stab-key">今日量</span><span class="stab-val">＿＿M</span></div>
+    <div class="stab-row"><span class="stab-key">均量×1.5</span><span class="stab-val">＿＿M</span></div>
+  </div>
+</div>
+
+<p class="section-label">四個條件 — 全部勾選才進場</p>
+<div class="rule-card">
+  <div class="check-row">
+    <div class="cb" id="c1" onclick="toggle('c1')"></div>
+    <div>
+      <div class="check-label">條件① — 價格趨勢向上</div>
+      <div class="check-sub">收盤 > MA5，且 MA5 > MA20<br>（橘線在綠線上面，K線在橘線上面）</div>
+    </div>
+  </div>
+  <div class="check-row">
+    <div class="cb" id="c2" onclick="toggle('c2')"></div>
+    <div>
+      <div class="check-label">條件② — 成交量放大</div>
+      <div class="check-sub">今日量柱 明顯高過藍色均量線一半以上<br>（今日量 > 均量 × 1.5）</div>
+    </div>
+  </div>
+  <div class="check-row">
+    <div class="cb" id="c3" onclick="toggle('c3')"></div>
+    <div>
+      <div class="check-label">條件③ — 收紅K（今天上漲）</div>
+      <div class="check-sub">今天蠟燭是紅色<br>（台灣習慣：紅色蠟燭 = 收盤 > 開盤 = 上漲）</div>
+    </div>
+  </div>
+  <div class="check-row">
+    <div class="cb" id="c4" onclick="toggle('c4')"></div>
+    <div>
+      <div class="check-label">條件④ — MACD黃金交叉</div>
+      <div class="check-sub">近3天內藍線從橘線下方穿越到上方<br>（MACD數值 > Signal數值）</div>
+    </div>
+  </div>
+  <div class="signal-bar" id="signal-bar">
+    <p class="signal-text" id="signal-text">尚未勾選完畢，繼續檢查...</p>
+  </div>
+</div>
+
+<p class="section-label">每日時間表</p>
+<div class="timing-card">
+  <ul class="timing-list">
+    <li><span class="timing-time">收盤後</span><span class="timing-desc">打開 TradingView，查穩懋和台光電的四個條件</span></li>
+    <li><span class="timing-time">填寫上表</span><span class="timing-desc">逐一勾選，全部勾選才考慮隔天進場</span></li>
+    <li><span class="timing-time">隔日09:00</span><span class="timing-desc">開盤後不急著下單，先觀察開盤方向</span></li>
+    <li><span class="timing-time">隔日09:30</span><span class="timing-desc">確認股價仍在MA5上方、沒有反轉，才下單買入</span></li>
+    <li><span class="timing-time">進場後</span><span class="timing-desc">記錄進場價，算好停損價（×0.95）和停利價（×1.15）</span></li>
+  </ul>
+</div>
+
+<div class="note-box">
+  <p class="note-title">鐵則 — 這三件事絕對不做</p>
+  <ul class="note-list">
+    <li>四個條件沒有全部符合，絕對不進場</li>
+    <li>進場後跌破停損價（-5%），不凹單、立刻出場</li>
+    <li>看到別人賺錢就衝動追高，沒有訊號就等</li>
+  </ul>
+</div>
+
+<script>
+const state={c1:false,c2:false,c3:false,c4:false};
+function toggle(id){
+  state[id]=!state[id];
+  document.getElementById(id).classList.toggle('checked',state[id]);
+  const all=state.c1&&state.c2&&state.c3&&state.c4;
+  const bar=document.getElementById('signal-bar');
+  const txt=document.getElementById('signal-text');
+  if(all){
+    bar.className='signal-bar go';
+    txt.className='signal-text go';
+    txt.textContent='四個條件全部符合！明日09:30確認後可以進場 ✓';
+  } else {
+    bar.className='signal-bar';
+    txt.className='signal-text';
+    const done=Object.values(state).filter(Boolean).length;
+    txt.textContent=done===0?'尚未勾選完畢，繼續檢查...':'已勾選 '+done+'/4，繼續確認其他條件';
+  }
+}
+</script>
+</body>
+</html>
